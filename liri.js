@@ -178,8 +178,10 @@ function imdb() {
                 console.log("");
                 console.log("The movie's Actor's: " + JSON.parse(body).Actors);
                 console.log("");
+            });
         }
-    )
+    });
+}
 
 function dwis() {
 
