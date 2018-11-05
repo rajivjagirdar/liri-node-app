@@ -1,14 +1,8 @@
 require("dotenv").config();
 
 var keys = require("./keys.js");
-
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.Spotify);
-
-var request = require('request');
-
-var fs = require("fs"); 
-
 
 var action = process.argv[2];
 
@@ -92,16 +86,13 @@ function spotify() {
                 return;
             }
             console.log("---------------------------------------------------");
-            console.log(" ");
-            console.log("The song you entered was " + value + ".");
-            console.log(" ");
-            console.log("Here is the infromation you requested!");
-            console.log(" ");
             console.log("Track Title: " + data.tracks.items[0].name);
             console.log(" ");
             console.log("Artist Name: " + data.tracks.items[0].artists[0].name);
             console.log(" ");
             console.log("Preview URL: " + data.tracks.items[0].preview_url);
+            console.log(" ");
+            console.log("Album: " + data.tracks.items[0].album.name);
             console.log(" ");
             console.log("---------------------------------------------------");
         });
@@ -126,6 +117,8 @@ function spotify() {
                 console.log("Artist Name: " + data.tracks.items[0].artists[0].name);
                 console.log(" ");
                 console.log("Preview URL: " + data.tracks.items[0].preview_url);
+                console.log(" ");
+                console.log("Album: " + data.tracks.items[0].album.name);
                 console.log(" ");
                 console.log("---------------------------------------------------");
             });
