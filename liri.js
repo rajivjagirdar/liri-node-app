@@ -38,18 +38,28 @@ switch (action) {
 
 function bands() {
     var request = require('request');
-    var bandurl = "https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp"
+    var moment = require("moment");
+    var bandurl = "https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp?limit=1";
 
     request(bandurl, function(error, response, body) {
+        var bandsObject = JSON.parse(body);
 
         if (!error && response.statusCode === 200) {
-            console.log("======================================================================");
-            console.log("The venue is: " + JSON.parse(body).venuedata.name);
-            console.log("");
-            console.log("The venue location is: " + JSON.parse(body).venuedata.city + ", " + JSON.parse(body).venuedata.region);
-            console.log("");
-            console.log("The date of event is: " + JSON.parse(body).date);
-            console.log("");
+            
+            for(i=0; i < bandsObject.length; i++){
+                var bandsString = "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+                + "\n================================"
+                + "\n" + value + " Concert"
+                + "\nVenue: " + bandsObject[i].venue.name
+                + "\nVenue City: " + bandsObject[i].venue.city
+                + "\nDate: " + moment(bandsObject[i].datetime).format("MM/DD/YYYY, h:mm a")
+                + "\n"
+                + "\n================================"
+                + "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+            };
+
+            console.log(bandsString)
+
         } else {
 
             var request = require('request');
@@ -57,11 +67,11 @@ function bands() {
             request("https://rest.bandsintown.com/artists/drake/events?app_id=codingbootcamp", function(error, response, body) {
 
                 console.log("======================================================================");
-                console.log("The venue is: " + JSON.parse(body).Venue);
+                console.log("The venue is: " + JSON.parse(body).venue.name);
                 console.log("");
-                console.log("The venue location is: " + JSON.parse(body).location);
+                console.log("The venue location is: " + JSON.parse(body).venue.city + ", " + JSON.parse(body).venue.region);
                 console.log("");
-                console.log("The date of event is: " + moment.format('MM/DD/YY')(body).date);
+                console.log("The date of event is: " + JSON.parse(body).datetime);
                 console.log("");
             });
         }
@@ -128,6 +138,7 @@ function imdb() {
     var request = require('request');
 
     var queryUrl = "http://www.omdbapi.com/?t=" + value + "&y=&plot=short&apikey=trilogy";
+
 
     request(queryUrl, function(error, response, body) {
 
