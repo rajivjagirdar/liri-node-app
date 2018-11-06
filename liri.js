@@ -45,7 +45,7 @@ function bands() {
 
     request("https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp", function(error, response, body) {
 
-        if (value != false) {
+        if (!error && response.statusCode === 200) {
 
             console.log("======================================================================");
             console.log("The venue is: " + JSON.parse(body).Venue);
@@ -133,7 +133,7 @@ function imdb() {
 
     request('http://www.omdbapi.com/?t=' + value + '&y=&plot=short&tomatoes=true&r=json', function(error, response, body) {
 
-        if (value != false) {
+        if (!error && response.statusCode === 200) {
 
             console.log("======================================================================");
             console.log("The movie's title is: " + JSON.parse(body).Title);
