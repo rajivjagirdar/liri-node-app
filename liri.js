@@ -2,7 +2,7 @@ require("dotenv").config();
 
 var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
-var spotify = new Spotify(keys.Spotify);
+
 
 var action = process.argv[2];
 
@@ -11,13 +11,9 @@ var nodeArgs = process.argv;
 var value = "";
 
 for (var i = 3; i < nodeArgs.length; i++) {
-
     if (i > 3 && i < nodeArgs.length) {
-
         value = value + "+" + nodeArgs[i];
-
     } else {
-
         value = value + nodeArgs[i];
     }
 }
@@ -42,15 +38,15 @@ switch (action) {
 
 function bands() {
     var request = require('request');
+    var bandurl = "https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp"
 
-    request("https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp", function(error, response, body) {
+    request(bandurl, function(error, response, body) {
 
         if (!error && response.statusCode === 200) {
-
             console.log("======================================================================");
-            console.log("The venue is: " + JSON.parse(body).Venue);
+            console.log("The venue is: " + JSON.parse(body).venuedata.name);
             console.log("");
-            console.log("The venue location is: " + JSON.parse(body).location);
+            console.log("The venue location is: " + JSON.parse(body).venuedata.city + ", " + JSON.parse(body).venuedata.region);
             console.log("");
             console.log("The date of event is: " + JSON.parse(body).date);
             console.log("");
@@ -75,7 +71,7 @@ function bands() {
 function spotify() {
 
     if (value != false) {
-        var spotify = require('spotify');
+        var spotify = new Spotify(keys.spotify);
 
         spotify.search({
             type: 'track',
@@ -98,7 +94,7 @@ function spotify() {
         });
     } else {
         {
-            var spotify = require('spotify');
+            var spotify = new Spotify(keys.spotify);
 
             spotify.search({
                 type: 'track',
@@ -131,7 +127,9 @@ function imdb() {
 
     var request = require('request');
 
-    request('http://www.omdbapi.com/?t=' + value + '&y=&plot=short&tomatoes=true&r=json', function(error, response, body) {
+    var queryUrl = "http://www.omdbapi.com/?t=" + value + "&y=&plot=short&apikey=trilogy";
+
+    request(queryUrl, function(error, response, body) {
 
         if (!error && response.statusCode === 200) {
 
@@ -154,7 +152,7 @@ function imdb() {
 
             var request = require('request');
 
-            request('http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&tomatoes=true&r=json', function(error, response, body) {
+            request("http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&apikey=trilogy", function(error, response, body) {
 
                 console.log("======================================================================");
                 console.log("The movie's name is: " + JSON.parse(body).Title);
